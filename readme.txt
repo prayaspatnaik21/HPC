@@ -6,3 +6,5 @@
     2.4) Install Vendor specific OpenCL Drivers:
             sudo apt install intel-opencl-icd
     2.5) Verify Installation: clinfo
+3. Resources
+    1. https://github.com/KhronosGroup/Khronosdotorg/blob/main/api/opencl/community-resources.md
