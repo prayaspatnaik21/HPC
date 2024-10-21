@@ -8,3 +8,4 @@
     2.5) Verify Installation: clinfo
 3. Resources
     1. https://github.com/KhronosGroup/Khronosdotorg/blob/main/api/opencl/community-resources.md
+4. Following Matthew Scarpino's OpenCL in Action

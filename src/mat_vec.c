@@ -2,7 +2,7 @@
 
 1. OpenCL (Open Computing Language)
 2. OpenCL routines can be executed on GPUs and CPUs from major manufacturers like AMD , Nvidia , Intel.
-3. Non Proprietart- based on public standard.
+3. Non Proprietary- based on public standard.
 4. OpenCL standard defines a set of data types , data structures and functions that augment C and C++.
 5. OpenCL - Portable , Standardized Vector Processing
     5.1 Computational Vector - A data structure that contains multiple elements of the same data type. During a vector operation, 
