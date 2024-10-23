@@ -30,6 +30,24 @@ Obtaining Platform Information
    clGetPlatformInfo(platforms[0], CL_PLATFORM_VENDOR, sizeof(pform_vendor), &pform_vendor, NULL);
     This code allocates the char array first and calls clGetPlatformInfo second. This poses no problem, because a vendor’s name is unlikely to exceed 40 characters. 
 3. If you don't know the size of the extensions a platform supports , call clGetPlatformInfo twice.
+4. The first step in every host application is to access cl_platform_id.
+
+Accessing Installed Devices
+---------------------------
+
+1. Once we can access vendor's platform , we can access every connected device provided by the vendor.
+2. In OpenCL application , devices receive tasks and data from the host.
+3. In code , cl_device_id structures represent devices.
+
+4. cl_device_id represents device.
+5. The clGetDeviceIDs funtion makes this possible. It populates a cl_device_id array with structures corresponding to OpenCL devices.
+6. OpenCL Device Types
+    CL_DEVICE_TYPE_ALL                  Identifies all devices associated with the platform
+    CL_DEVICE_TYPE_DEFAULT              Identifies devices associated with the platform’s default type
+    CL_DEVICE_TYPE_CPU                  Identifies the host processor
+    CL_DEVICE_TYPE_GPU                  Identifies a device containing a graphics processor unit (GPU)
+    CL_DEVICE_TYPE_ACCELERATOR          Identifies an external device used to accelerate computation
+7.clGetDeviceInfo provides information about the corresponding device.
 */
 
 #include <stdio.h>
@@ -106,4 +124,5 @@ void platform_extension_test()
 int main()
 {
     platform_extension_test();
+    device_extension_test();
 }
