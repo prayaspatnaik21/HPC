@@ -545,8 +545,63 @@ void queue_kernel()
     }
 
     // 1. Set up the OpenCL environment
+    /*
+        cl_int clGetPlatformIDs(cl_uint num_entries ,
+                                cl_platform_id* platforms ,
+                                cl_uint* num_platforms)
+        
+        1. Gives the list of platforms available can be obtained with the function.
+        2. num_entries is the number of cl_platform_id entries that can be added to platforms. If platforms is not NULL, num_entries must be greater than zero. 
+        3. platforms returns a list of OpenCL platforms found. The cl_platform_id values returned in platforms can be used to identify a specific OpenCL platform. If platforms is NULL, this argument is ignored. The number of OpenCL platforms returned is the minimum of the value specified by num_entries or the number of OpenCL platforms available.
+        4. num_platforms returns the number of OpenCL platforms available. If num_platforms is NULL, this argument is ignored.
+
+        returns - CL_SUCCESS if the function is executed and , if the cl_khr_icd extension is supported, there are a non-zero number of platforms available.otherwise
+                  returns error.
+    */
     err = clGetPlatformIDs(1 , &platform , NULL);
+
+    /*
+        cl_int clGetDeviceIDs( cl_platform_id platform,
+                               cl_device_type device_type,
+                               cl_uint num_entries,
+                               cl_device_id* devices,
+                               cl_uint* num_devices)
+
+        1. platform refers to the platform ID returned by clGetPlatformIDs or can be NULL. If platform is NULL, the behavior is implementation-defined.
+        2. device_type is a bitfield that identifies the type of OpenCL device. The device_type can be used to query specific OpenCL devices or all OpenCL devices
+           available. The valid values for device_type are specified in the Device Types table.
+        3. num_entries is the number of cl_device_id entries that can be added to devices. If devices is not NULL, the num_entries must be greater than zero.
+        4. devices returns a list of OpenCL devices found. The cl_device_id values returned in devices can be used to identify a specific OpenCL device. If devices is NULL, this argument
+           is ignored. The number of OpenCL devices returned is the minimum of the value specified by num_entries or the number of OpenCL devices whose type matches
+           device_type.
+        5. num_devices returns the number of OpenCL devices available that match device_type. If num_devices is NULL, this argument is ignored.
+
+        returns -  CL_SUCCESS if the function is executed successfully. Otherwise, it returns error.
+    */
     err |= clGetDeviceIDs(platform , CL_DEVICE_TYPE_GPU , 1 , &device , NULL);
+
+    /*
+        cl_context clCreateContext(const cl_context_properties* properties,
+                                   cl_uint num_devices,
+                                   const cl_device_id* devices,
+                                   void (CL_CALLBACK* pfn_notify)(const char* errinfo, const void* private_info, size_t cb, void* user_data),
+                                   void* user_data,
+                                   cl_int* errcode_ret);
+
+        1. properties specifies a list of context property names and their corresponding values. Each property name is immediately followed by the corresponding 
+           desired value. The list is terminated with 0. The list of supported properties, and their default values if not present in properties, is described in
+           the Context Properties table. properties can be NULL, in which case all properties take on their default values.
+        2. num_devices is the number of devices specified in the devices argument.
+        3. devices is a pointer to a list of unique devices returned by clGetDeviceIDs or sub-devices created by clCreateSubDevices for a platform. [11]
+        4. pfn_notify is a callback function that can be registered by the application. This callback function will be used by the OpenCL implementation to report information on errors during context creation as well as errors that occur at runtime in this context. This callback function may be called asynchronously by the OpenCL implementation. It is the application’s responsibility to ensure that the callback function is thread-safe. If pfn_notify is NULL, no callback function is registered.
+        5. user_data will be passed as the user_data argument when pfn_notify is called. user_data can be NULL.
+        6. errcode_ret will return an appropriate error code. If errcode_ret is NULL, no error code is returned.
+
+
+        An OpenCL context is a fundamental part of the OpenCL programming model that provides the environment within which OpenCL operations are executed.
+        Think of the context as a workspace that binds together the different components needed to execute programs on a device, such as the GPU, CPU, or other 
+        accelerators.
+    */
     context = clCreateContext(NULL , 1 , &device , NULL , NULL, &err);
 
     // 2. Create command queue
